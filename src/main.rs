@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::net::UdpSocket;
 
 fn main() -> std::io::Result<()> {
@@ -5,26 +6,29 @@ fn main() -> std::io::Result<()> {
 }
 
 fn create_udp_server() -> std::io::Result<()> {
-    let mut account_codes: [str; i32] = [];
+    let mut account_codes: HashMap<String, i32> = HashMap::new();
     {
-        let socket = UdpSocket::bind("127.0.0.1:1012");
+        let socket = UdpSocket::bind("127.0.0.1:1012")
+            .expect("Could not bind to socket");
 
         let mut buf = [0; 1024];
         let (amt, src) = socket.recv_from(&mut buf)?;
 
         println!("Received {} bytes from {}", amt, src);
 
-        let mut buf = &buf[..amt];
+        let buf = &buf[..amt];
         let mut code = String::new();
+        let mut index = 0;
         while buf.len() > 0 {
-            let c = buf.read_u8()?;
+            let c = buf[index];
             if c == 0 {
                 break;
             }
             code.push(c as char);
+            index += 1;
         }
         println!("Code: {}", code);
-        account_codes.push(code);
+        account_codes.insert(code.to_string(), 0);
     }
     Ok(())
 }
