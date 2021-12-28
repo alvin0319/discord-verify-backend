@@ -5,7 +5,7 @@ fn main() -> std::io::Result<()> {
 }
 
 fn create_udp_server() -> std::io::Result<()> {
-    let mut accountCodes: [str; i32] = [];
+    let mut account_codes: [str; i32] = [];
     {
         let socket = UdpSocket::bind("127.0.0.1:1012");
 
@@ -24,7 +24,7 @@ fn create_udp_server() -> std::io::Result<()> {
             code.push(c as char);
         }
         println!("Code: {}", code);
-        accountCodes.push(code);
+        account_codes.push(code);
     }
     Ok(())
 }
