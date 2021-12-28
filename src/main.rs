@@ -1,11 +1,12 @@
 use std::collections::HashMap;
+use std::io::Result;
 use std::net::UdpSocket;
 
-fn main() -> std::io::Result<()> {
+fn main() -> Result<()> {
     create_udp_server()
 }
 
-fn create_udp_server() -> std::io::Result<()> {
+fn create_udp_server() -> Result<()> {
     let mut account_codes: HashMap<String, i32> = HashMap::new();
     {
         let socket = UdpSocket::bind("127.0.0.1:1012")
